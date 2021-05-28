@@ -68,9 +68,19 @@ See Wikipedia for a brief review of [Lindley's paradox](https://en.wikipedia.org
 
 ## RCT of oral treatments for toenail fungus
 
+### Reference
+
 See De Backer et al. 1996
 
 > De Backer M, De Keyser P, De Vroey C and Lesaffre E 1996 A 12-week treatment for dermatophyte toe onycholysis: terbinafine 250 mg/day vs. itraconazole 200 mg/day – a double-blind comparative trial. British Journal of Dermatology 134, 16–17.
+
+### Description
+
+Two groups of 189 patients received 12 weeks of treatment (A: Lamisil, B: Itraconazole) and 48 weeks of follow-up. The primary endpoint was negative microscopy and mycology culture. Another endpoint was unaffected big toenail length at week 48, which included 131 patients for treatment A and 133 for treatment B. 
+
+The empirical mean and standard deviations of unaffected nail length for each treatment were
+* A: $9.07\pm4.92mm$
+* B: $7.70\pm5.33mm$
 
 ### Example listing
 
