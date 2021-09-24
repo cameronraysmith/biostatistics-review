@@ -390,6 +390,11 @@ See [here](https://www.mayo.edu/research/documents/gastrichtml/doc-10027680) for
 
 ### Data files
 
+The data encoding in order of the columns from left to right is
+- survival time (in days)
+- status: 1=death, 0=censored
+- treatment: 1=chemotherapy 2=combined chemotherapy/radiation
+
 ```
 ├── gastric-cancer-DOC-10027750.csv
 ```
