@@ -378,7 +378,21 @@ Geuskens et al, 2008 and Alves et al, 2011
 - bcph (bilateral compression pain in hands yes/no) and 
 - bcpf (bilateral compression pain in feet yes/no)
 
+## Gastric cancer
 
+See [here](https://www.mayo.edu/research/documents/gastrichtml/doc-10027680) for data. 
+
+> Moreau T, O’Quigley J, Mesbah M. A Global Goodness-of-Fit Statistic for the Proportional Hazards Model. J R Stat Soc Ser C Appl Stat. 1985;34: 212–218. doi:10.2307/2347465
+
+### Examples
+
+- Section 14.3.1: AFT model of survival in gastric cancer patients
+
+### Data files
+
+```
+├── gastric-cancer-DOC-10027750.csv
+```
 
 # Book contents overview
 
