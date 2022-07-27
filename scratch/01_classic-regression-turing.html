@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Classical regression in Turing &#8212; biostatistics review</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/insipid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script defer src="../_static/insipid.js"></script>
+    <script defer src="../_static/insipid-sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head><body>
+    <script type="text/javascript">
+        document.body.classList.add('js');
+    </script>
+    <input type="checkbox" id="sidebar-checkbox" style="display: none;">
+    <label id="overlay" for="sidebar-checkbox"></label>
+    <div class="sidebar-resize-handle"></div>
+    <script type="text/javascript">
+        try {
+            let sidebar = localStorage.getItem('sphinx-sidebar');
+            const sidebar_width = localStorage.getItem('sphinx-sidebar-width');
+            if (sidebar_width) {
+                document.documentElement.style.setProperty('--sidebar-width', sidebar_width);
+            }
+            // show sidebar on wide screen
+            if (!sidebar && window.matchMedia('(min-width: 100rem)').matches) {
+                sidebar = 'visible';
+                // NB: We don't store the value in localStorage!
+            }
+            if (sidebar === 'visible') {
+                document.getElementById('sidebar-checkbox').checked = true;
+            }
+        } catch(e) {
+            console.info(e);
+        }
+    </script>
+    <header id="topbar-placeholder">
+      <div id="topbar">
+        <div id="titlebar">
+          <div class="buttons">
+            <label for="sidebar-checkbox" id="sidebar-button" role="button" tabindex="0" aria-controls="sphinxsidebar" accesskey="M">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
+            </label>
+            <button id="search-button" type="button" title="Search" aria-label="Search" aria-expanded="false" aria-controls="search-form" accesskey="S">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+            </button>
+          </div>
+          <div class="title">
+            <a class="parent" href="../index.html" accesskey="U">biostatistics review</a>
+            <a class="top" href="#">Classical regression in Turing</a>
+          </div>
+          <div class="buttons">
+            <button id="fullscreen-button" type="button" aria-hidden="true">
+              <span class="enable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M212.686 315.314L120 408l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C10.697 480 0 469.255 0 456V344c0-21.382 25.803-32.09 40.922-16.971L72 360l92.686-92.686c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.249 6.248 6.249 16.378 0 22.627zm22.628-118.628L328 104l-32.922-31.029C279.958 57.851 290.666 32 312.048 32h112C437.303 32 448 42.745 448 56v112c0 21.382-25.803 32.09-40.922 16.971L376 152l-92.686 92.686c-6.248 6.248-16.379 6.248-22.627 0l-25.373-25.373c-6.249-6.248-6.249-16.378 0-22.627z"/></svg>
+              </span>
+              <span class="disable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M4.686 427.314L104 328l-32.922-31.029C55.958 281.851 66.666 256 88.048 256h112C213.303 256 224 266.745 224 280v112c0 21.382-25.803 32.09-40.922 16.971L152 376l-99.314 99.314c-6.248 6.248-16.379 6.248-22.627 0L4.686 449.941c-6.248-6.248-6.248-16.379 0-22.627zM443.314 84.686L344 184l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C234.697 256 224 245.255 224 232V120c0-21.382 25.803-32.09 40.922-16.971L296 136l99.314-99.314c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.248 6.248 6.248 16.379 0 22.627z"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div id="searchbox" role="search">
+          <form id="search-form" class="search" style="display: none" action="../search.html" method="get">
+            <input type="search" name="q" placeholder="Search ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <button>Go</button>
+          </form>
+        </div>
+      </div>
+    </header>
+    <nav>
+    </nav>
+
+    <nav class="relbar">
+    </nav>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="admonition note">
+  This page was generated from
+  <a class="reference external" href="https://github.com/cameronraysmith/biostatistics-review/blob/master/source/scratch/01_classic-regression-turing.ipynb">source/scratch/01_classic-regression-turing.ipynb</a>.
+  <span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/cameronraysmith/biostatistics-review/master?filepath=source/scratch/01_classic-regression-turing.ipynb"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a> or </span>
+  <script>
+    if (document.location.host) {
+      $(document.currentScript).replaceWith(
+        '<a class="reference external" ' +
+        'href="https://nbviewer.jupyter.org/url' +
+        (window.location.protocol == 'https:' ? 's/' : '/') +
+        window.location.host +
+        window.location.pathname.slice(0, -4) +
+        'ipynb"><em>nbviewer</em></a>.'
+      );
+    }
+  </script>
+</div><div class="section" id="Classical-regression-in-Turing">
+<h1>Classical regression in Turing<a class="headerlink" href="#Classical-regression-in-Turing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Setup-plotting">
+<h2>Setup plotting<a class="headerlink" href="#Setup-plotting" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyCall</span>
+<span class="n">font_manager</span> <span class="o">=</span> <span class="n">pyimport</span><span class="p">(</span><span class="s">&quot;matplotlib.font_manager&quot;</span><span class="p">)</span>
+<span class="n">font_manager</span><span class="o">.</span><span class="n">fontManager</span><span class="o">.</span><span class="n">addfont</span><span class="p">(</span><span class="s">&quot;/usr/share/fonts/OTF/lmroman10-regular.otf&quot;</span><span class="p">)</span>
+<span class="n">PyDict</span><span class="p">(</span><span class="n">pyimport</span><span class="p">(</span><span class="s">&quot;matplotlib&quot;</span><span class="p">)[</span><span class="s">&quot;rcParams&quot;</span><span class="p">])[</span><span class="s">&quot;font.serif&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Latin Modern Roman&quot;</span><span class="p">]</span>
+<span class="c"># font_manager.fontManager.addfont(&quot;/usr/share/fonts/OTF/lmsans10-regular.otf&quot;)</span>
+<span class="c"># PyDict(pyimport(&quot;matplotlib&quot;)[&quot;rcParams&quot;])[&quot;font.serif&quot;] = [&quot;Latin Modern Sans&quot;]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1-element Vector{String}:
+ &#34;Latin Modern Roman&#34;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Plots</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">Plots</span><span class="o">.</span><span class="n">font</span><span class="p">(</span><span class="s">&quot;Latin Modern Roman&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+<span class="c"># font = Plots.font(&quot;Latin Modern Sans&quot;, 18)</span>
+<span class="n">pyplot</span><span class="p">(</span><span class="n">titlefont</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">guidefont</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">xtickfont</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">ytickfont</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">legendfont</span><span class="o">=</span><span class="n">font</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Plots.PyPlotBackend()
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c"># These are the plotting data</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_01_classic-regression-turing_4_0.png" src="../_images/scratch_01_classic-regression-turing_4_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Import-libraries">
+<h2>Import libraries<a class="headerlink" href="#Import-libraries" title="Permalink to this headline">¶</a></h2>
+<p>You may need to install <code class="docutils literal notranslate"><span class="pre">julia</span></code> package <code class="docutils literal notranslate"><span class="pre">ForwardDiff</span></code> if it isn’t already installed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>julia -e <span class="s1">&#39;using Pkg; Pkg.status()&#39;</span>
+julia -e <span class="s1">&#39;using Pkg; Pkg.instantiate(); Pkg.API.precompile()&#39;</span>
+julia -e <span class="s1">&#39;using Pkg; Pkg.add(&quot;ForwardDiff&quot;)&#39;</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Import Turing and Distributions.</span>
+<span class="k">using</span> <span class="n">Turing</span><span class="p">,</span> <span class="n">Distributions</span>
+
+<span class="c"># Import RDatasets.</span>
+<span class="k">using</span> <span class="n">RDatasets</span>
+
+<span class="c"># Import MCMCChains, Plots, and StatPlots for visualizations and diagnostics.</span>
+<span class="k">using</span> <span class="n">MCMCChains</span><span class="p">,</span> <span class="n">Plots</span><span class="p">,</span> <span class="n">StatsPlots</span>
+
+<span class="c"># Functionality for splitting and normalizing the data.</span>
+<span class="k">using</span> <span class="n">MLDataUtils</span><span class="o">:</span> <span class="n">shuffleobs</span><span class="p">,</span> <span class="n">splitobs</span><span class="p">,</span> <span class="n">rescale!</span>
+
+<span class="c"># Functionality for evaluating the model predictions.</span>
+<span class="k">using</span> <span class="n">Distances</span>
+
+<span class="c"># Functionality for reading CSV files into DataFrames</span>
+<span class="k">using</span> <span class="n">CSV</span>
+<span class="k">using</span> <span class="n">DataFrames</span>
+
+<span class="c"># Set a seed for reproducibility.</span>
+<span class="k">using</span> <span class="n">Random</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c"># Hide the progress prompt while sampling.</span>
+<span class="c"># Turing.turnprogress(false);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+┌ Info: Precompiling StatsPlots [f3b207a7-027a-5e70-b257-86293d7955fd]
+└ @ Base loading.jl:1317
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Load-data">
+<h2>Load data<a class="headerlink" href="#Load-data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Import the &quot;Default&quot; dataset.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">RDatasets</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s">&quot;datasets&quot;</span><span class="p">,</span> <span class="s">&quot;mtcars&quot;</span><span class="p">);</span>
+
+<span class="c"># Show the first six rows of the dataset.</span>
+<span class="n">print</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="n">first</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(32, 12)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table class="data-frame"><thead><tr><th></th><th>Model</th><th>MPG</th><th>Cyl</th><th>Disp</th><th>HP</th><th>DRat</th><th>WT</th><th>QSec</th><th>VS</th></tr><tr><th></th><th>String</th><th>Float64</th><th>Int64</th><th>Float64</th><th>Int64</th><th>Float64</th><th>Float64</th><th>Float64</th><th>Int64</th></tr></thead><tbody><p>6 rows × 12 columns (omitted printing of 3 columns)</p><tr><th>1</th><td>Mazda RX4</td><td>21.0</td><td>6</td><td>160.0</td><td>110</td><td>3.9</td><td>2.62</td><td>16.46</td><td>0</td></tr><tr><th>2</th><td>Mazda RX4 Wag</td><td>21.0</td><td>6</td><td>160.0</td><td>110</td><td>3.9</td><td>2.875</td><td>17.02</td><td>0</td></tr><tr><th>3</th><td>Datsun 710</td><td>22.8</td><td>4</td><td>108.0</td><td>93</td><td>3.85</td><td>2.32</td><td>18.61</td><td>1</td></tr><tr><th>4</th><td>Hornet 4 Drive</td><td>21.4</td><td>6</td><td>258.0</td><td>110</td><td>3.08</td><td>3.215</td><td>19.44</td><td>1</td></tr><tr><th>5</th><td>Hornet Sportabout</td><td>18.7</td><td>8</td><td>360.0</td><td>175</td><td>3.15</td><td>3.44</td><td>17.02</td><td>0</td></tr><tr><th>6</th><td>Valiant</td><td>18.1</td><td>6</td><td>225.0</td><td>105</td><td>2.76</td><td>3.46</td><td>20.22</td><td>1</td></tr></tbody></table></div>
+</div>
+</div>
+<div class="section" id="Preprocess-data">
+<h2>Preprocess data<a class="headerlink" href="#Preprocess-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Manipulate-data-structure-into-appropriate-input-form">
+<h3>Manipulate data structure into appropriate input form<a class="headerlink" href="#Manipulate-data-structure-into-appropriate-input-form" title="Permalink to this headline">¶</a></h3>
+<p>Extract a training and testing set from the data</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Remove the model column.</span>
+<span class="n">select!</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Not</span><span class="p">(</span><span class="o">:</span><span class="n">Model</span><span class="p">))</span>
+
+<span class="c"># Split our dataset 70%/30% into training/test sets.</span>
+<span class="n">trainset</span><span class="p">,</span> <span class="n">testset</span> <span class="o">=</span> <span class="n">splitobs</span><span class="p">(</span><span class="n">shuffleobs</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="mf">0.7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(<span class="ansi-bold">22×11 SubDataFrame</span>
+<span class="ansi-bold"> Row </span>│<span class="ansi-bold"> MPG     </span><span class="ansi-bold"> Cyl   </span><span class="ansi-bold"> Disp    </span><span class="ansi-bold"> HP    </span><span class="ansi-bold"> DRat    </span><span class="ansi-bold"> WT      </span><span class="ansi-bold"> QSec    </span><span class="ansi-bold"> VS    </span><span class="ansi-bold"> AM   </span> ⋯
+<span class="ansi-bold">     </span>│<span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Int64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Int64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Int64 </span><span class="ansi-black-intense-fg"> Int64</span> ⋯
+─────┼──────────────────────────────────────────────────────────────────────────
+   1 │    27.3      4     79.0     66     4.08    1.935    18.9       1      1 ⋯
+   2 │    21.4      6    258.0    110     3.08    3.215    19.44      1      0
+   3 │    30.4      4     95.1    113     3.77    1.513    16.9       1      1
+   4 │    24.4      4    146.7     62     3.69    3.19     20.0       1      0
+   5 │    33.9      4     71.1     65     4.22    1.835    19.9       1      1 ⋯
+   6 │    10.4      8    460.0    215     3.0     5.424    17.82      0      0
+   7 │    15.5      8    318.0    150     2.76    3.52     16.87      0      0
+   8 │    14.7      8    440.0    230     3.23    5.345    17.42      0      0
+   9 │    22.8      4    140.8     95     3.92    3.15     22.9       1      0 ⋯
+  10 │    21.0      6    160.0    110     3.9     2.62     16.46      0      1
+  11 │    15.2      8    275.8    180     3.07    3.78     18.0       0      0
+  12 │    13.3      8    350.0    245     3.73    3.84     15.41      0      0
+  13 │    15.8      8    351.0    264     4.22    3.17     14.5       0      1 ⋯
+  14 │    22.8      4    108.0     93     3.85    2.32     18.61      1      1
+  15 │    21.0      6    160.0    110     3.9     2.875    17.02      0      1
+  16 │    17.8      6    167.6    123     3.92    3.44     18.9       1      0
+  17 │    19.2      8    400.0    175     3.08    3.845    17.05      0      0 ⋯
+  18 │    30.4      4     75.7     52     4.93    1.615    18.52      1      1
+  19 │    18.7      8    360.0    175     3.15    3.44     17.02      0      0
+  20 │    21.5      4    120.1     97     3.7     2.465    20.01      1      0
+  21 │    10.4      8    472.0    205     2.93    5.25     17.98      0      0 ⋯
+  22 │    32.4      4     78.7     66     4.08    2.2      19.47      1      1
+<span class="ansi-cyan-fg">                                                               2 columns omitted</span>, <span class="ansi-bold">10×11 SubDataFrame</span>
+<span class="ansi-bold"> Row </span>│<span class="ansi-bold"> MPG     </span><span class="ansi-bold"> Cyl   </span><span class="ansi-bold"> Disp    </span><span class="ansi-bold"> HP    </span><span class="ansi-bold"> DRat    </span><span class="ansi-bold"> WT      </span><span class="ansi-bold"> QSec    </span><span class="ansi-bold"> VS    </span><span class="ansi-bold"> AM   </span> ⋯
+<span class="ansi-bold">     </span>│<span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Int64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Int64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Float64 </span><span class="ansi-black-intense-fg"> Int64 </span><span class="ansi-black-intense-fg"> Int64</span> ⋯
+─────┼──────────────────────────────────────────────────────────────────────────
+   1 │    19.2      6    167.6    123     3.92    3.44     18.3       1      0 ⋯
+   2 │    15.0      8    301.0    335     3.54    3.57     14.6       0      1
+   3 │    16.4      8    275.8    180     3.07    4.07     17.4       0      0
+   4 │    14.3      8    360.0    245     3.21    3.57     15.84      0      0
+   5 │    21.4      4    121.0    109     4.11    2.78     18.6       1      1 ⋯
+   6 │    18.1      6    225.0    105     2.76    3.46     20.22      1      0
+   7 │    19.7      6    145.0    175     3.62    2.77     15.5       0      1
+   8 │    15.2      8    304.0    150     3.15    3.435    17.3       0      0
+   9 │    26.0      4    120.3     91     4.43    2.14     16.7       0      1 ⋯
+  10 │    17.3      8    275.8    180     3.07    3.73     17.6       0      0
+<span class="ansi-cyan-fg">                                                               2 columns omitted</span>)
+</pre></div></div>
+</div>
+<p>Specify the outcome variable for predicton.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="o">:</span><span class="n">MPG</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10×10 Matrix{Float64}:
+ 6.0  167.6  123.0  3.92  3.44   18.3   1.0  0.0  4.0  4.0
+ 8.0  301.0  335.0  3.54  3.57   14.6   0.0  1.0  5.0  8.0
+ 8.0  275.8  180.0  3.07  4.07   17.4   0.0  0.0  3.0  3.0
+ 8.0  360.0  245.0  3.21  3.57   15.84  0.0  0.0  3.0  4.0
+ 4.0  121.0  109.0  4.11  2.78   18.6   1.0  1.0  4.0  2.0
+ 6.0  225.0  105.0  2.76  3.46   20.22  1.0  0.0  3.0  1.0
+ 6.0  145.0  175.0  3.62  2.77   15.5   0.0  1.0  5.0  6.0
+ 8.0  304.0  150.0  3.15  3.435  17.3   0.0  0.0  3.0  2.0
+ 4.0  120.3   91.0  4.43  2.14   16.7   0.0  1.0  5.0  2.0
+ 8.0  275.8  180.0  3.07  3.73   17.6   0.0  0.0  3.0  3.0
+</pre></div></div>
+</div>
+<p>Convert data to matrix form.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">train</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">Not</span><span class="p">(</span><span class="n">target</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+22×10 Matrix{Float64}:
+ 4.0   79.0   66.0  4.08  1.935  18.9   1.0  1.0  4.0  1.0
+ 6.0  258.0  110.0  3.08  3.215  19.44  1.0  0.0  3.0  1.0
+ 4.0   95.1  113.0  3.77  1.513  16.9   1.0  1.0  5.0  2.0
+ 4.0  146.7   62.0  3.69  3.19   20.0   1.0  0.0  4.0  2.0
+ 4.0   71.1   65.0  4.22  1.835  19.9   1.0  1.0  4.0  1.0
+ 8.0  460.0  215.0  3.0   5.424  17.82  0.0  0.0  3.0  4.0
+ 8.0  318.0  150.0  2.76  3.52   16.87  0.0  0.0  3.0  2.0
+ 8.0  440.0  230.0  3.23  5.345  17.42  0.0  0.0  3.0  4.0
+ 4.0  140.8   95.0  3.92  3.15   22.9   1.0  0.0  4.0  2.0
+ 6.0  160.0  110.0  3.9   2.62   16.46  0.0  1.0  4.0  4.0
+ 8.0  275.8  180.0  3.07  3.78   18.0   0.0  0.0  3.0  3.0
+ 8.0  350.0  245.0  3.73  3.84   15.41  0.0  0.0  3.0  4.0
+ 8.0  351.0  264.0  4.22  3.17   14.5   0.0  1.0  5.0  4.0
+ 4.0  108.0   93.0  3.85  2.32   18.61  1.0  1.0  4.0  1.0
+ 6.0  160.0  110.0  3.9   2.875  17.02  0.0  1.0  4.0  4.0
+ 6.0  167.6  123.0  3.92  3.44   18.9   1.0  0.0  4.0  4.0
+ 8.0  400.0  175.0  3.08  3.845  17.05  0.0  0.0  3.0  2.0
+ 4.0   75.7   52.0  4.93  1.615  18.52  1.0  1.0  4.0  2.0
+ 8.0  360.0  175.0  3.15  3.44   17.02  0.0  0.0  3.0  2.0
+ 4.0  120.1   97.0  3.7   2.465  20.01  1.0  0.0  3.0  1.0
+ 8.0  472.0  205.0  2.93  5.25   17.98  0.0  0.0  3.0  4.0
+ 4.0   78.7   66.0  4.08  2.2    19.47  1.0  1.0  4.0  1.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span> <span class="n">Not</span><span class="p">(</span><span class="n">target</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10×10 Matrix{Float64}:
+ 6.0  167.6  123.0  3.92  3.44   18.3   1.0  0.0  4.0  4.0
+ 8.0  301.0  335.0  3.54  3.57   14.6   0.0  1.0  5.0  8.0
+ 8.0  275.8  180.0  3.07  4.07   17.4   0.0  0.0  3.0  3.0
+ 8.0  360.0  245.0  3.21  3.57   15.84  0.0  0.0  3.0  4.0
+ 4.0  121.0  109.0  4.11  2.78   18.6   1.0  1.0  4.0  2.0
+ 6.0  225.0  105.0  2.76  3.46   20.22  1.0  0.0  3.0  1.0
+ 6.0  145.0  175.0  3.62  2.77   15.5   0.0  1.0  5.0  6.0
+ 8.0  304.0  150.0  3.15  3.435  17.3   0.0  0.0  3.0  2.0
+ 4.0  120.3   91.0  4.43  2.14   16.7   0.0  1.0  5.0  2.0
+ 8.0  275.8  180.0  3.07  3.73   17.6   0.0  0.0  3.0  3.0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">train_target</span> <span class="o">=</span> <span class="n">trainset</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">target</span><span class="p">];</span>
+<span class="n">test_target</span> <span class="o">=</span> <span class="n">testset</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">target</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Transform-data">
+<h3>Transform data<a class="headerlink" href="#Transform-data" title="Permalink to this headline">¶</a></h3>
+<p>Standardize the data features.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">μ</span><span class="p">,</span> <span class="n">σ</span> <span class="o">=</span> <span class="n">rescale!</span><span class="p">(</span><span class="n">train</span><span class="p">;</span> <span class="n">obsdim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([6.0, 231.25454545454548, 136.4090909090909, 3.6459090909090914, 3.181227272727273, 18.14090909090909, 0.5, 0.4090909090909091, 3.6363636363636362, 2.5], [1.8516401995451028, 139.64166975060107, 64.88939974398129, 0.5406755834879975, 1.1276522569276897, 1.8090958254409035, 0.511766315719159, 0.5032362797401964, 0.657951694959769, 1.2630273533214136])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">train</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+22×10 Matrix{Float64}:
+ -1.08012  -1.09032   -1.08506   …   1.17422   0.552679  -1.18762
+  0.0       0.191529  -0.406986     -0.81292  -0.967189  -1.18762
+ -1.08012  -0.975028  -0.360754      1.17422   2.07255   -0.395874
+ -1.08012  -0.605511  -1.14671      -0.81292   0.552679  -0.395874
+ -1.08012  -1.1469    -1.10047       1.17422   0.552679  -1.18762
+  1.08012   1.63809    1.21115   …  -0.81292  -0.967189   1.18762
+  1.08012   0.6212     0.209447     -0.81292  -0.967189  -0.395874
+  1.08012   1.49487    1.44231      -0.81292  -0.967189   1.18762
+ -1.08012  -0.647762  -0.638149     -0.81292   0.552679  -0.395874
+  0.0      -0.510267  -0.406986      1.17422   0.552679   1.18762
+  1.08012   0.318998   0.671772  …  -0.81292  -0.967189   0.395874
+  1.08012   0.850358   1.67348      -0.81292  -0.967189   1.18762
+  1.08012   0.857519   1.96628       1.17422   2.07255    1.18762
+ -1.08012  -0.882649  -0.66897       1.17422   0.552679  -1.18762
+  0.0      -0.510267  -0.406986      1.17422   0.552679   1.18762
+  0.0      -0.455842  -0.206645  …  -0.81292   0.552679   1.18762
+  1.08012   1.20842    0.594718     -0.81292  -0.967189  -0.395874
+ -1.08012  -1.11396   -1.30081       1.17422   0.552679  -0.395874
+  1.08012   0.92197    0.594718     -0.81292  -0.967189  -0.395874
+ -1.08012  -0.795998  -0.607327     -0.81292  -0.967189  -1.18762
+  1.08012   1.72402    1.05704   …  -0.81292  -0.967189   1.18762
+ -1.08012  -1.09247   -1.08506       1.17422   0.552679  -1.18762
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rescale!</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">;</span> <span class="n">obsdim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([6.0, 231.25454545454548, 136.4090909090909, 3.6459090909090914, 3.181227272727273, 18.14090909090909, 0.5, 0.4090909090909091, 3.6363636363636362, 2.5], [1.8516401995451028, 139.64166975060107, 64.88939974398129, 0.5406755834879975, 1.1276522569276897, 1.8090958254409035, 0.511766315719159, 0.5032362797401964, 0.657951694959769, 1.2630273533214136])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">test</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10×10 Matrix{Float64}:
+  0.0      -0.455842  -0.206645  …  -0.81292   0.552679   1.18762
+  1.08012   0.49946    3.06045       1.17422   2.07255    4.35462
+  1.08012   0.318998   0.671772     -0.81292  -0.967189   0.395874
+  1.08012   0.92197    1.67348      -0.81292  -0.967189   1.18762
+ -1.08012  -0.789553  -0.422397      1.17422   0.552679  -0.395874
+  0.0      -0.04479   -0.48404   …  -0.81292  -0.967189  -1.18762
+  0.0      -0.617685   0.594718      1.17422   2.07255    2.77112
+  1.08012   0.520944   0.209447     -0.81292  -0.967189  -0.395874
+ -1.08012  -0.794566  -0.699792      1.17422   2.07255   -0.395874
+  1.08012   0.318998   0.671772     -0.81292  -0.967189   0.395874
+</pre></div></div>
+</div>
+<p>Standardize outcome data as well.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">μtarget</span><span class="p">,</span> <span class="n">σtarget</span> <span class="o">=</span> <span class="n">rescale!</span><span class="p">(</span><span class="n">train_target</span><span class="p">;</span> <span class="n">obsdim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">rescale!</span><span class="p">(</span><span class="n">test_target</span><span class="p">,</span> <span class="n">μtarget</span><span class="p">,</span> <span class="n">σtarget</span><span class="p">;</span> <span class="n">obsdim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Define-model">
+<h2>Define model<a class="headerlink" href="#Define-model" title="Permalink to this headline">¶</a></h2>
+<p>One linear model to predict the outcome variable <code class="docutils literal notranslate"><span class="pre">MPG</span></code> from the other variables in the data set is a so-called fixed effects model given by</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{MPG}_i \sim \mathcal{N}(\alpha + \beta^T \mathbf{X}_i, \sigma^2)\]</div>
+<p>Note here that the slope parameters <span class="math notranslate nohighlight">\(\beta^T\)</span> and the intercept <span class="math notranslate nohighlight">\(\alpha\)</span> are fixed across all data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+          <div class="sidebar-resize-handle"></div>
+
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../plotting.html">Plotting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bayesian-biostatistics/hierarchical-regression.html">Hierarchical regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+<hr class="docutils" />
+<ul>
+  <li class="toctree-l1"><a class="reference internal" href="../genindex.html" accesskey="I">General Index</a></li>
+</ul>
+<div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+    <nav class="relbar">
+    </nav>
+
+    <footer role="contentinfo">
+      &#169; Copyright 2021, Cameron Smith.
+      Created using <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> 2.4.4.
+      <a class="reference external" href="https://insipid-sphinx-theme.readthedocs.io/">Insipid Theme</a>.
+    </footer>
+  </body>
+</html>

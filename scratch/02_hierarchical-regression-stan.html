@@ -1,0 +1,3132 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hierarchical regression &#8212; biostatistics review</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/insipid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+    <script defer src="../_static/insipid.js"></script>
+    <script defer src="../_static/insipid-sidebar.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head><body>
+    <script type="text/javascript">
+        document.body.classList.add('js');
+    </script>
+    <input type="checkbox" id="sidebar-checkbox" style="display: none;">
+    <label id="overlay" for="sidebar-checkbox"></label>
+    <div class="sidebar-resize-handle"></div>
+    <script type="text/javascript">
+        try {
+            let sidebar = localStorage.getItem('sphinx-sidebar');
+            const sidebar_width = localStorage.getItem('sphinx-sidebar-width');
+            if (sidebar_width) {
+                document.documentElement.style.setProperty('--sidebar-width', sidebar_width);
+            }
+            // show sidebar on wide screen
+            if (!sidebar && window.matchMedia('(min-width: 100rem)').matches) {
+                sidebar = 'visible';
+                // NB: We don't store the value in localStorage!
+            }
+            if (sidebar === 'visible') {
+                document.getElementById('sidebar-checkbox').checked = true;
+            }
+        } catch(e) {
+            console.info(e);
+        }
+    </script>
+    <header id="topbar-placeholder">
+      <div id="topbar">
+        <div id="titlebar">
+          <div class="buttons">
+            <label for="sidebar-checkbox" id="sidebar-button" role="button" tabindex="0" aria-controls="sphinxsidebar" accesskey="M">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
+            </label>
+            <button id="search-button" type="button" title="Search" aria-label="Search" aria-expanded="false" aria-controls="search-form" accesskey="S">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+            </button>
+          </div>
+          <div class="title">
+            <a class="parent" href="../index.html" accesskey="U">biostatistics review</a>
+            <a class="top" href="#">Hierarchical regression</a>
+          </div>
+          <div class="buttons">
+            <button id="fullscreen-button" type="button" aria-hidden="true">
+              <span class="enable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M212.686 315.314L120 408l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C10.697 480 0 469.255 0 456V344c0-21.382 25.803-32.09 40.922-16.971L72 360l92.686-92.686c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.249 6.248 6.249 16.378 0 22.627zm22.628-118.628L328 104l-32.922-31.029C279.958 57.851 290.666 32 312.048 32h112C437.303 32 448 42.745 448 56v112c0 21.382-25.803 32.09-40.922 16.971L376 152l-92.686 92.686c-6.248 6.248-16.379 6.248-22.627 0l-25.373-25.373c-6.249-6.248-6.249-16.378 0-22.627z"/></svg>
+              </span>
+              <span class="disable">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M4.686 427.314L104 328l-32.922-31.029C55.958 281.851 66.666 256 88.048 256h112C213.303 256 224 266.745 224 280v112c0 21.382-25.803 32.09-40.922 16.971L152 376l-99.314 99.314c-6.248 6.248-16.379 6.248-22.627 0L4.686 449.941c-6.248-6.248-6.248-16.379 0-22.627zM443.314 84.686L344 184l32.922 31.029c15.12 15.12 4.412 40.971-16.97 40.971h-112C234.697 256 224 245.255 224 232V120c0-21.382 25.803-32.09 40.922-16.971L296 136l99.314-99.314c6.248-6.248 16.379-6.248 22.627 0l25.373 25.373c6.248 6.248 6.248 16.379 0 22.627z"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div id="searchbox" role="search">
+          <form id="search-form" class="search" style="display: none" action="../search.html" method="get">
+            <input type="search" name="q" placeholder="Search ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            <button>Go</button>
+          </form>
+        </div>
+      </div>
+    </header>
+    <nav>
+    </nav>
+
+    <nav class="relbar">
+    </nav>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<div class="admonition note">
+  This page was generated from
+  <a class="reference external" href="https://github.com/cameronraysmith/biostatistics-review/blob/master/source/scratch/02_hierarchical-regression-stan.ipynb">source/scratch/02_hierarchical-regression-stan.ipynb</a>.
+  <span style="white-space: nowrap;"><a href="https://mybinder.org/v2/gh/cameronraysmith/biostatistics-review/master?filepath=source/scratch/02_hierarchical-regression-stan.ipynb"><img alt="Binder badge" src="https://mybinder.org/badge_logo.svg" style="vertical-align:text-bottom"></a> or </span>
+  <script>
+    if (document.location.host) {
+      $(document.currentScript).replaceWith(
+        '<a class="reference external" ' +
+        'href="https://nbviewer.jupyter.org/url' +
+        (window.location.protocol == 'https:' ? 's/' : '/') +
+        window.location.host +
+        window.location.pathname.slice(0, -4) +
+        'ipynb"><em>nbviewer</em></a>.'
+      );
+    }
+  </script>
+</div><div class="section" id="Hierarchical-regression">
+<h1>Hierarchical regression<a class="headerlink" href="#Hierarchical-regression" title="Permalink to this headline">¶</a></h1>
+<p>The following notes are based on * <span id="id1">[]</span> * <a class="reference external" href="https://github.com/fonnesbeck/stan_workshop_2016/blob/master/notebooks/Multilevel%20Modeling.ipynb">Chris Fonnesbeck - Stan Workshop 2016 - Multilevel Modeling</a> * <span id="id2">[<a class="reference internal" href="../references.html#id62" title="Andrew Gelman and Jennifer Hill. Data Analysis Using Regression and Multilevel/Hierarchical Models. Volume 1. Cambridge University Press, December 2006. ISBN 9780521686891.">GH06</a>]</span></p>
+<div class="section" id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Install-libraries">
+<h3>Install libraries<a class="headerlink" href="#Install-libraries" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %run -i &#39;plotting.py&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !apt-get install -y fonts-lmodern</span>
+<span class="c1"># !pip install -q arviz numpyro</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Add-latin-modern-fonts">
+<h3>Add latin modern fonts<a class="headerlink" href="#Add-latin-modern-fonts" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.font_manager</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## fonts_path = &quot;/usr/share/texmf/fonts/opentype/public/lm/&quot; #ubuntu</span>
+<span class="c1">## fonts_path = &quot;~/Library/Fonts/&quot; # macos</span>
+<span class="n">fonts_path</span> <span class="o">=</span> <span class="s2">&quot;/usr/share/fonts/OTF/&quot;</span> <span class="c1"># arch</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">font_manager</span><span class="o">.</span><span class="n">fontManager</span><span class="o">.</span><span class="n">addfont</span><span class="p">(</span><span class="n">fonts_path</span> <span class="o">+</span> <span class="s2">&quot;lmsans10-regular.otf&quot;</span><span class="p">)</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">font_manager</span><span class="o">.</span><span class="n">fontManager</span><span class="o">.</span><span class="n">addfont</span><span class="p">(</span><span class="n">fonts_path</span> <span class="o">+</span> <span class="s2">&quot;lmroman10-regular.otf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-matplotlib-to-use-latin-modern-fonts">
+<h3>Set matplotlib to use latin modern fonts<a class="headerlink" href="#Set-matplotlib-to-use-latin-modern-fonts" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">set_matplotlib_formats</span>
+<span class="c1"># from IPython import matplotlib_inline</span>
+<span class="c1">##%matplotlib inline</span>
+<span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span> <span class="c1"># use SVG backend to maintain vectorization</span>
+<span class="c1"># matplotlib_inline.backend_inline.set_matplotlib_formats(&#39;svg&#39;)  # use SVG backend to maintain vectorization</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1">#reset default parameters</span>
+<span class="c1">## https://stackoverflow.com/a/3900167/446907</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+                     <span class="s1">&#39;font.family&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sans-serif&#39;</span><span class="p">],</span>
+                     <span class="s1">&#39;font.serif&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Latin Modern Roman&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.serif&#39;</span><span class="p">],</span>
+                     <span class="s1">&#39;font.sans-serif&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Latin Modern Sans&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+&lt;ipython-input-5-3ec050389011&gt;:4: DeprecationWarning: `set_matplotlib_formats` is deprecated since IPython 7.23, directly use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
+  set_matplotlib_formats(&#39;svg&#39;) # use SVG backend to maintain vectorization
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Generative-models">
+<h2>Generative models<a class="headerlink" href="#Generative-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Example-generative-models">
+<h3>Example generative models<a class="headerlink" href="#Example-generative-models" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Univariate-normal-model">
+<h4>Univariate normal model<a class="headerlink" href="#Univariate-normal-model" title="Permalink to this headline">¶</a></h4>
+<p>From a very simple perspective, generative modeling refers to the situation in which we develop a candidate probabilistic specification of the process from which our data are generated. Usually this will include the specification of prior distributions over all first-order parameters.</p>
+<div><center><p><a class="no-scaled-link reference internal" href="https://www.bayespy.org/_images/tikz-57bc0c88a2974f4c1e2335fe9edb88ff2efdf970.png"><img alt="Drawing" class="no-scaled-link" src="https://www.bayespy.org/_images/tikz-57bc0c88a2974f4c1e2335fe9edb88ff2efdf970.png" style="width: 10%;" /></a></p>
+</center></div><p><span class="math">\begin{equation*}
+\begin{split}
+p(\mathbf{y}|\mu,\tau) &= \prod^{9}_{n=0} \mathcal{N}(y_n|\mu,\tau) \\
+p(\mu) &= \mathcal{N}(\mu|0,10^{-6}) \\
+p(\tau) &= \mathcal{G}(\tau|10^{-6},10^{-6})
+\end{split}
+\end{equation*}</span></p>
+<p>This comes from the library <a class="reference external" href="https://github.com/bayespy/bayespy/blob/develop/doc/source/user_guide/quickstart.rst">bayespy</a>. The best description we are aware of regarding the syntax and semantics of graphical models via factor graph notation is in the <a class="reference external" href="https://github.com/jluttine/tikz-bayesnet">tikz-bayesnet</a> library <a class="reference external" href="https://github.com/jluttine/tikz-bayesnet/blob/master/dietz-techreport.pdf">technical report</a>.</p>
+</div>
+<div class="section" id="Multivariate-normal-models">
+<h4>Multivariate normal models<a class="headerlink" href="#Multivariate-normal-models" title="Permalink to this headline">¶</a></h4>
+<div><center><p><a class="no-scaled-link reference internal" href="https://www.bayespy.org/_images/tikz-80a1db369be1f25b61ceacfff551dae2bdd331c3.png"><img alt="Drawing" class="no-scaled-link" src="https://www.bayespy.org/_images/tikz-80a1db369be1f25b61ceacfff551dae2bdd331c3.png" style="width: 10%;" /></a></p>
+</center></div><div class="math notranslate nohighlight">
+\[\mathbf{y}_{mn} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{\Lambda}),\qquad m=0,\ldots,9, \quad n=0,\ldots,29.\]</div>
+<div><center><p><a class="no-scaled-link reference internal" href="https://www.bayespy.org/_images/tikz-97236981a2be663d10ade1ad85caa727621615db.png"><img alt="Drawing" class="no-scaled-link" src="https://www.bayespy.org/_images/tikz-97236981a2be663d10ade1ad85caa727621615db.png" style="width: 20%;" /></a></p>
+</center></div><div class="math notranslate nohighlight">
+\[\mathbf{y}_{mn} \sim \mathcal{N}(\boldsymbol{\mu}_m,
+\mathbf{\Lambda}_n),\qquad m=0,\ldots,9, \quad n=0,\ldots,29.\]</div>
+<p>Note that these are for illustrative purposes of the manner in which our data can share parameters and we have not yet defined priors over our parameters.</p>
+</div>
+</div>
+</div>
+<div class="section" id="Example-of-linear-regression">
+<h2>Example of linear regression<a class="headerlink" href="#Example-of-linear-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Setup<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="Load-libraries">
+<h4>Load libraries<a class="headerlink" href="#Load-libraries" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## %pylab inline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">## plt.style.use([&#39;seaborn-talk&#39;])</span>
+<span class="c1">## plt.rcParams[&quot;figure.figsize&quot;] = (10,8)</span>
+
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">numpyro</span>
+<span class="kn">import</span> <span class="nn">numpyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">from</span> <span class="nn">numpyro.infer</span> <span class="kn">import</span> <span class="n">MCMC</span><span class="p">,</span> <span class="n">NUTS</span><span class="p">,</span> <span class="n">Predictive</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numpyro</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_platform</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">numpyro</span><span class="o">.</span><span class="n">set_host_device_count</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.6.0
+0.2.13
+0.11.2
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="define-colors">
+<h4>define colors<a class="headerlink" href="#define-colors" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c_light</span> <span class="o">=</span><span class="s2">&quot;#DCBCBC&quot;</span>
+<span class="n">c_light_highlight</span> <span class="o">=</span><span class="s2">&quot;#C79999&quot;</span>
+<span class="n">c_mid</span> <span class="o">=</span><span class="s2">&quot;#B97C7C&quot;</span>
+<span class="n">c_mid_highlight</span> <span class="o">=</span><span class="s2">&quot;#A25050&quot;</span>
+<span class="n">c_dark</span> <span class="o">=</span><span class="s2">&quot;#8F2727&quot;</span>
+<span class="n">c_dark_highlight</span> <span class="o">=</span><span class="s2">&quot;#7C0000&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Import-data">
+<h3>Import data<a class="headerlink" href="#Import-data" title="Permalink to this headline">¶</a></h3>
+<p>Import radon data</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://www.stat.columbia.edu/~gelman/arm/examples/radon/srrs2.dat&#39;</span><span class="p">)</span>
+<span class="n">srrs2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">srrs2</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">)</span>
+<span class="n">srrs_mn</span> <span class="o">=</span> <span class="n">srrs2</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">fips</span><span class="o">=</span><span class="n">srrs2</span><span class="o">.</span><span class="n">stfips</span><span class="o">*</span><span class="mi">1000</span> <span class="o">+</span> <span class="n">srrs2</span><span class="o">.</span><span class="n">cntyfips</span><span class="p">)[</span><span class="n">srrs2</span><span class="o">.</span><span class="n">state</span><span class="o">==</span><span class="s1">&#39;MN&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">srrs_mn</span><span class="p">))</span>
+<span class="n">srrs_mn</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(919, 26)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="mi">806</span><span class="p">)),:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>idnum</th>
+      <th>state</th>
+      <th>state2</th>
+      <th>stfips</th>
+      <th>zip</th>
+      <th>region</th>
+      <th>typebldg</th>
+      <th>floor</th>
+      <th>room</th>
+      <th>basement</th>
+      <th>...</th>
+      <th>startdt</th>
+      <th>stopdt</th>
+      <th>activity</th>
+      <th>pcterr</th>
+      <th>adjwt</th>
+      <th>dupflag</th>
+      <th>zipflag</th>
+      <th>cntyfips</th>
+      <th>county</th>
+      <th>fips</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5081</th>
+      <td>5082</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55748</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>11888</td>
+      <td>12088</td>
+      <td>2.2</td>
+      <td>14.5</td>
+      <td>471.366223</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+    </tr>
+    <tr>
+      <th>5082</th>
+      <td>5083</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55748</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>20288</td>
+      <td>21188</td>
+      <td>2.9</td>
+      <td>9.6</td>
+      <td>433.316718</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+    </tr>
+    <tr>
+      <th>5083</th>
+      <td>5084</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>56469</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>122987</td>
+      <td>123187</td>
+      <td>1.0</td>
+      <td>24.3</td>
+      <td>461.623670</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+    </tr>
+    <tr>
+      <th>5084</th>
+      <td>5085</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55011</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>12888</td>
+      <td>13088</td>
+      <td>3.1</td>
+      <td>13.8</td>
+      <td>433.316718</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>ANOKA</td>
+      <td>27003</td>
+    </tr>
+    <tr>
+      <th>5085</th>
+      <td>5086</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55014</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>120287</td>
+      <td>121187</td>
+      <td>2.5</td>
+      <td>12.8</td>
+      <td>471.366223</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>ANOKA</td>
+      <td>27003</td>
+    </tr>
+    <tr>
+      <th>5086</th>
+      <td>5087</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55014</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>121887</td>
+      <td>122087</td>
+      <td>1.5</td>
+      <td>14.5</td>
+      <td>471.366223</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>ANOKA</td>
+      <td>27003</td>
+    </tr>
+    <tr>
+      <th>5880</th>
+      <td>5881</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>56378</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>11688</td>
+      <td>11888</td>
+      <td>2.2</td>
+      <td>10.2</td>
+      <td>893.237430</td>
+      <td>0</td>
+      <td>0</td>
+      <td>145</td>
+      <td>STEARNS</td>
+      <td>27145</td>
+    </tr>
+    <tr>
+      <th>5881</th>
+      <td>5882</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>56379</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>22388</td>
+      <td>22588</td>
+      <td>5.0</td>
+      <td>6.8</td>
+      <td>1071.318034</td>
+      <td>0</td>
+      <td>0</td>
+      <td>145</td>
+      <td>STEARNS</td>
+      <td>27145</td>
+    </tr>
+    <tr>
+      <th>5882</th>
+      <td>5883</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55060</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>121987</td>
+      <td>122287</td>
+      <td>7.3</td>
+      <td>4.0</td>
+      <td>990.411554</td>
+      <td>0</td>
+      <td>0</td>
+      <td>147</td>
+      <td>STEELE</td>
+      <td>27147</td>
+    </tr>
+    <tr>
+      <th>5883</th>
+      <td>5884</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55060</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>122387</td>
+      <td>122587</td>
+      <td>3.7</td>
+      <td>10.6</td>
+      <td>921.864905</td>
+      <td>1</td>
+      <td>0</td>
+      <td>147</td>
+      <td>STEELE</td>
+      <td>27147</td>
+    </tr>
+    <tr>
+      <th>5884</th>
+      <td>5885</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55060</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>12188</td>
+      <td>12388</td>
+      <td>2.9</td>
+      <td>9.0</td>
+      <td>990.411554</td>
+      <td>0</td>
+      <td>0</td>
+      <td>147</td>
+      <td>STEELE</td>
+      <td>27147</td>
+    </tr>
+    <tr>
+      <th>5885</th>
+      <td>5886</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55060</td>
+      <td>4</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Y</td>
+      <td>...</td>
+      <td>12488</td>
+      <td>12688</td>
+      <td>4.4</td>
+      <td>6.0</td>
+      <td>921.864905</td>
+      <td>0</td>
+      <td>0</td>
+      <td>147</td>
+      <td>STEELE</td>
+      <td>27147</td>
+    </tr>
+  </tbody>
+</table>
+<p>12 rows × 26 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">srrs_mn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;activity&#39;,
+ &#39;adjwt&#39;,
+ &#39;basement&#39;,
+ &#39;cntyfips&#39;,
+ &#39;county&#39;,
+ &#39;dupflag&#39;,
+ &#39;fips&#39;,
+ &#39;floor&#39;,
+ &#39;idnum&#39;,
+ &#39;pcterr&#39;,
+ &#39;region&#39;,
+ &#39;rep&#39;,
+ &#39;room&#39;,
+ &#39;startdt&#39;,
+ &#39;starttm&#39;,
+ &#39;state&#39;,
+ &#39;state2&#39;,
+ &#39;stfips&#39;,
+ &#39;stopdt&#39;,
+ &#39;stoptm&#39;,
+ &#39;stratum&#39;,
+ &#39;typebldg&#39;,
+ &#39;wave&#39;,
+ &#39;windoor&#39;,
+ &#39;zip&#39;,
+ &#39;zipflag&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;idnum&#39;,
+ &#39;state&#39;,
+ &#39;state2&#39;,
+ &#39;stfips&#39;,
+ &#39;zip&#39;,
+ &#39;region&#39;,
+ &#39;typebldg&#39;,
+ &#39;floor&#39;,
+ &#39;room&#39;,
+ &#39;basement&#39;,
+ &#39;windoor&#39;,
+ &#39;rep&#39;,
+ &#39;stratum&#39;,
+ &#39;wave&#39;,
+ &#39;starttm&#39;,
+ &#39;stoptm&#39;,
+ &#39;startdt&#39;,
+ &#39;stopdt&#39;,
+ &#39;activity&#39;,
+ &#39;pcterr&#39;,
+ &#39;adjwt&#39;,
+ &#39;dupflag&#39;,
+ &#39;zipflag&#39;,
+ &#39;cntyfips&#39;,
+ &#39;county&#39;,
+ &#39;fips&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cty</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://www.stat.columbia.edu/~gelman/arm/examples/radon/cty.dat&#39;</span><span class="p">)</span>
+<span class="n">cty_mn</span> <span class="o">=</span> <span class="n">cty</span><span class="p">[</span><span class="n">cty</span><span class="o">.</span><span class="n">st</span><span class="o">==</span><span class="s1">&#39;MN&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cty_mn</span><span class="p">[</span> <span class="s1">&#39;fips&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">*</span><span class="n">cty_mn</span><span class="o">.</span><span class="n">stfips</span> <span class="o">+</span> <span class="n">cty_mn</span><span class="o">.</span><span class="n">ctfips</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">cty_mn</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">cty_mn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(89, 8)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+pandas.core.frame.DataFrame
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cty_mn</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span><span class="mi">86</span><span class="p">)),:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>stfips</th>
+      <th>ctfips</th>
+      <th>st</th>
+      <th>cty</th>
+      <th>lon</th>
+      <th>lat</th>
+      <th>Uppm</th>
+      <th>fips</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1327</th>
+      <td>27</td>
+      <td>3</td>
+      <td>MN</td>
+      <td>ANOKA</td>
+      <td>-93.246</td>
+      <td>45.273</td>
+      <td>0.428565</td>
+      <td>27003</td>
+    </tr>
+    <tr>
+      <th>1328</th>
+      <td>27</td>
+      <td>5</td>
+      <td>MN</td>
+      <td>BECKER</td>
+      <td>-95.674</td>
+      <td>46.935</td>
+      <td>0.892741</td>
+      <td>27005</td>
+    </tr>
+    <tr>
+      <th>1329</th>
+      <td>27</td>
+      <td>7</td>
+      <td>MN</td>
+      <td>BELTRAMI</td>
+      <td>-94.937</td>
+      <td>47.974</td>
+      <td>0.552472</td>
+      <td>27007</td>
+    </tr>
+    <tr>
+      <th>1330</th>
+      <td>27</td>
+      <td>9</td>
+      <td>MN</td>
+      <td>BENTON</td>
+      <td>-93.998</td>
+      <td>45.699</td>
+      <td>0.866849</td>
+      <td>27009</td>
+    </tr>
+    <tr>
+      <th>1331</th>
+      <td>27</td>
+      <td>11</td>
+      <td>MN</td>
+      <td>BIGSTONE</td>
+      <td>-96.410</td>
+      <td>45.426</td>
+      <td>1.472640</td>
+      <td>27011</td>
+    </tr>
+    <tr>
+      <th>1332</th>
+      <td>27</td>
+      <td>13</td>
+      <td>MN</td>
+      <td>BLUEEARTH</td>
+      <td>-94.067</td>
+      <td>44.035</td>
+      <td>1.312080</td>
+      <td>27013</td>
+    </tr>
+    <tr>
+      <th>1406</th>
+      <td>27</td>
+      <td>157</td>
+      <td>MN</td>
+      <td>WABASHA</td>
+      <td>-92.230</td>
+      <td>44.284</td>
+      <td>1.161930</td>
+      <td>27157</td>
+    </tr>
+    <tr>
+      <th>1407</th>
+      <td>27</td>
+      <td>159</td>
+      <td>MN</td>
+      <td>WADENA</td>
+      <td>-94.969</td>
+      <td>46.586</td>
+      <td>0.510671</td>
+      <td>27159</td>
+    </tr>
+    <tr>
+      <th>1408</th>
+      <td>27</td>
+      <td>161</td>
+      <td>MN</td>
+      <td>WASECA</td>
+      <td>-93.587</td>
+      <td>44.022</td>
+      <td>1.236660</td>
+      <td>27161</td>
+    </tr>
+    <tr>
+      <th>1409</th>
+      <td>27</td>
+      <td>163</td>
+      <td>MN</td>
+      <td>WASHINGTON</td>
+      <td>-92.884</td>
+      <td>45.038</td>
+      <td>0.862876</td>
+      <td>27163</td>
+    </tr>
+    <tr>
+      <th>1410</th>
+      <td>27</td>
+      <td>165</td>
+      <td>MN</td>
+      <td>WATONWAN</td>
+      <td>-94.614</td>
+      <td>43.978</td>
+      <td>1.201100</td>
+      <td>27165</td>
+    </tr>
+    <tr>
+      <th>1411</th>
+      <td>27</td>
+      <td>167</td>
+      <td>MN</td>
+      <td>WILKIN</td>
+      <td>-96.468</td>
+      <td>46.357</td>
+      <td>1.266220</td>
+      <td>27167</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">cty_mn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;Uppm&#39;, &#39;ctfips&#39;, &#39;cty&#39;, &#39;fips&#39;, &#39;lat&#39;, &#39;lon&#39;, &#39;st&#39;, &#39;stfips&#39;]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Transform-data">
+<h3>Transform data<a class="headerlink" href="#Transform-data" title="Permalink to this headline">¶</a></h3>
+<p>Combine the home and county data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cty_mn</span><span class="p">[[</span><span class="s1">&#39;fips&#39;</span><span class="p">,</span> <span class="s1">&#39;Uppm&#39;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;fips&#39;</span><span class="p">)</span>
+<span class="n">srrs_mn</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;idnum&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">srrs_mn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">Uppm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;idnum&#39;,
+ &#39;state&#39;,
+ &#39;state2&#39;,
+ &#39;stfips&#39;,
+ &#39;zip&#39;,
+ &#39;region&#39;,
+ &#39;typebldg&#39;,
+ &#39;floor&#39;,
+ &#39;room&#39;,
+ &#39;basement&#39;,
+ &#39;windoor&#39;,
+ &#39;rep&#39;,
+ &#39;stratum&#39;,
+ &#39;wave&#39;,
+ &#39;starttm&#39;,
+ &#39;stoptm&#39;,
+ &#39;startdt&#39;,
+ &#39;stopdt&#39;,
+ &#39;activity&#39;,
+ &#39;pcterr&#39;,
+ &#39;adjwt&#39;,
+ &#39;dupflag&#39;,
+ &#39;zipflag&#39;,
+ &#39;cntyfips&#39;,
+ &#39;county&#39;,
+ &#39;fips&#39;,
+ &#39;Uppm&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()]))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[5081, 5999],
+ [&#39;MN&#39;, &#39;MN&#39;],
+ [&#39;MN&#39;, &#39;MN&#39;],
+ [27, 27],
+ [&#39;55007&#39;, &#39;57006&#39;],
+ [1, 5],
+ [0, 5],
+ [0, 1],
+ [0, 7],
+ [&#39; &#39;, &#39;Y&#39;],
+ [&#39; &#39;, &#39; &#39;],
+ [&#39; 1&#39;, &#39; 5&#39;],
+ [1, 5],
+ [&#39;  1&#39;, &#39; 50&#39;],
+ [0, 2337],
+ [0, 2355],
+ [10188, 123187],
+ [10188, 123187],
+ [0.0, 48.2],
+ [0.0, 66.3],
+ [348.042925, 2314.365189],
+ [0, 2],
+ [0, 1],
+ [1, 173],
+ [&#39;AITKIN              &#39;, &#39;YELLOW MEDICINE     &#39;],
+ [27001, 27173],
+ [0.414025, 1.69558]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">srrs_mn</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">]]</span>
+<span class="c1"># pd.reset_option(&quot;max_columns&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>idnum</th>
+      <th>stfips</th>
+      <th>region</th>
+      <th>typebldg</th>
+      <th>floor</th>
+      <th>room</th>
+      <th>stratum</th>
+      <th>starttm</th>
+      <th>stoptm</th>
+      <th>startdt</th>
+      <th>stopdt</th>
+      <th>activity</th>
+      <th>pcterr</th>
+      <th>adjwt</th>
+      <th>dupflag</th>
+      <th>zipflag</th>
+      <th>cntyfips</th>
+      <th>fips</th>
+      <th>Uppm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>min</th>
+      <td>5081.0</td>
+      <td>27.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10188.0</td>
+      <td>10188.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>348.042925</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>27001.0</td>
+      <td>0.414025</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>5999.0</td>
+      <td>27.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>7.0</td>
+      <td>5.0</td>
+      <td>2337.0</td>
+      <td>2355.0</td>
+      <td>123187.0</td>
+      <td>123187.0</td>
+      <td>48.2</td>
+      <td>66.3</td>
+      <td>2314.365189</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>173.0</td>
+      <td>27173.0</td>
+      <td>1.695580</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">srrs_mn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;Uppm&#39;,
+ &#39;activity&#39;,
+ &#39;adjwt&#39;,
+ &#39;basement&#39;,
+ &#39;cntyfips&#39;,
+ &#39;county&#39;,
+ &#39;dupflag&#39;,
+ &#39;fips&#39;,
+ &#39;floor&#39;,
+ &#39;idnum&#39;,
+ &#39;pcterr&#39;,
+ &#39;region&#39;,
+ &#39;rep&#39;,
+ &#39;room&#39;,
+ &#39;startdt&#39;,
+ &#39;starttm&#39;,
+ &#39;state&#39;,
+ &#39;state2&#39;,
+ &#39;stfips&#39;,
+ &#39;stopdt&#39;,
+ &#39;stoptm&#39;,
+ &#39;stratum&#39;,
+ &#39;typebldg&#39;,
+ &#39;wave&#39;,
+ &#39;windoor&#39;,
+ &#39;zip&#39;,
+ &#39;zipflag&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>idnum</th>
+      <th>state</th>
+      <th>state2</th>
+      <th>stfips</th>
+      <th>zip</th>
+      <th>region</th>
+      <th>typebldg</th>
+      <th>floor</th>
+      <th>room</th>
+      <th>basement</th>
+      <th>windoor</th>
+      <th>rep</th>
+      <th>stratum</th>
+      <th>wave</th>
+      <th>starttm</th>
+      <th>stoptm</th>
+      <th>startdt</th>
+      <th>stopdt</th>
+      <th>activity</th>
+      <th>pcterr</th>
+      <th>adjwt</th>
+      <th>dupflag</th>
+      <th>zipflag</th>
+      <th>cntyfips</th>
+      <th>county</th>
+      <th>fips</th>
+      <th>Uppm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5081</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55735</td>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>N</td>
+      <td></td>
+      <td>2</td>
+      <td>4</td>
+      <td>41</td>
+      <td>930</td>
+      <td>930</td>
+      <td>12088</td>
+      <td>12288</td>
+      <td>2.2</td>
+      <td>9.7</td>
+      <td>1146.499190</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+      <td>0.502054</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5082</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55748</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td></td>
+      <td>5</td>
+      <td>2</td>
+      <td>40</td>
+      <td>1615</td>
+      <td>1615</td>
+      <td>11888</td>
+      <td>12088</td>
+      <td>2.2</td>
+      <td>14.5</td>
+      <td>471.366223</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+      <td>0.502054</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5083</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55748</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td></td>
+      <td>3</td>
+      <td>2</td>
+      <td>42</td>
+      <td>1030</td>
+      <td>1515</td>
+      <td>20288</td>
+      <td>21188</td>
+      <td>2.9</td>
+      <td>9.6</td>
+      <td>433.316718</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+      <td>0.502054</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5084</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>56469</td>
+      <td>5</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td></td>
+      <td>2</td>
+      <td>2</td>
+      <td>24</td>
+      <td>1410</td>
+      <td>1410</td>
+      <td>122987</td>
+      <td>123187</td>
+      <td>1.0</td>
+      <td>24.3</td>
+      <td>461.623670</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>AITKIN</td>
+      <td>27001</td>
+      <td>0.502054</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5085</td>
+      <td>MN</td>
+      <td>MN</td>
+      <td>27</td>
+      <td>55011</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Y</td>
+      <td></td>
+      <td>3</td>
+      <td>2</td>
+      <td>40</td>
+      <td>600</td>
+      <td>600</td>
+      <td>12888</td>
+      <td>13088</td>
+      <td>3.1</td>
+      <td>13.8</td>
+      <td>433.316718</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>ANOKA</td>
+      <td>27003</td>
+      <td>0.428565</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(919, 27)
+</pre></div></div>
+</div>
+<p>Create a list of the counties in Minnesota.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">county</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">county</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">mn_counties</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">county</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">counties</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mn_counties</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mn_counties</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">mn_counties</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(85,)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;AITKIN&#39;, &#39;ANOKA&#39;, &#39;BECKER&#39;, &#39;BELTRAMI&#39;, &#39;BENTON&#39;], dtype=object)
+</pre></div></div>
+</div>
+<p>Extract relevant variables</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">county_lookup</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mn_counties</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mn_counties</span><span class="p">))))</span>
+<span class="n">county</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="p">[</span><span class="s1">&#39;county_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">county</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">county_lookup</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">radon</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">activity</span>
+<span class="n">srrs_mn</span><span class="p">[</span><span class="s1">&#39;log_radon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_radon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">radon</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">floor_measure</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">floor</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<p>Distribution of logarithmic radon levels across the entire state of Minnesota.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">activity</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">0.1</span><span class="p">))</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot:&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_02_hierarchical-regression-stan_57_1.svg" src="../_images/scratch_02_hierarchical-regression-stan_57_1.svg" /></div>
+</div>
+</div>
+<div class="section" id="Complete-pooling-model">
+<h3>Complete pooling model<a class="headerlink" href="#Complete-pooling-model" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import stan</span>
+<span class="kn">from</span> <span class="nn">cmdstanpy</span> <span class="kn">import</span> <span class="n">cmdstan_path</span><span class="p">,</span> <span class="n">CmdStanModel</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+</pre></div>
+</div>
+</div>
+<p>The complete pooling model considers houses within all counties to be the same. As such there is only one set of parameters required in this model.</p>
+<div class="math notranslate nohighlight">
+\[y_i = \alpha + \beta x_i + \epsilon_i\]</div>
+<p>which may be written</p>
+<div class="math notranslate nohighlight">
+\[y_i \sim \mathcal{N} (\alpha + \beta x_i, \sigma)\]</div>
+<p>We define the data for this model, which includes the number of samples (<span class="math notranslate nohighlight">\(N\)</span>), floor-within-house predictors (<span class="math notranslate nohighlight">\(x\)</span>), and the outcomes of log-radon measurments (<span class="math notranslate nohighlight">\(y\)</span>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_data</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">data{</span>
+<span class="s2">    int&lt;lower=0&gt; N;</span>
+<span class="s2">    vector[N] x;</span>
+<span class="s2">    vector[N] y;</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>We define initializations for the parameters <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_parameters</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">parameters {</span>
+<span class="s2">    vector[2] beta;</span>
+<span class="s2">    real&lt;lower=0&gt; sigma;</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>Model the log-radon measurements as samples from a normal distribution with mean a function of the floor of measurement.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_model</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model {</span>
+<span class="s2">    y ~ normal(beta[1] + beta[2] * x, sigma);</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_model_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;pooled_model.stan&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">pooled_model_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pooled_data</span> <span class="o">+</span> <span class="n">pooled_parameters</span> <span class="o">+</span> <span class="n">pooled_model</span><span class="p">)</span>
+<span class="n">pooled_model_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Recall the range of values for the floor predictor, <span class="math notranslate nohighlight">\(x\)</span> is binary (ground vs other floor).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">floor</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">floor_measure</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0, 1], dtype=int64)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">log_radon</span><span class="p">),</span>
+               <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">floor_measure</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+               <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">log_radon</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_data_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;pooled_model.data.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pooled_data_dict</span><span class="p">,</span> <span class="n">pooled_data_file</span><span class="p">)</span>
+<span class="n">pooled_data_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_stan</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;pooled_model.stan&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_stan_model</span> <span class="o">=</span> <span class="n">CmdStanModel</span><span class="p">(</span><span class="n">stan_file</span><span class="o">=</span><span class="n">pooled_stan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:cmdstanpy:compiling stan program, exe file: /data-cameron/jovyan/projects/biostatistics-review/source/bayesian-biostatistics/pooled_model
+INFO:cmdstanpy:compiler options: stanc_options=None, cpp_options=None
+INFO:cmdstanpy:compiled model file: /data-cameron/jovyan/projects/biostatistics-review/source/bayesian-biostatistics/pooled_model
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_stan_data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;pooled_model.data.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_stan_fit</span> <span class="o">=</span> <span class="n">pooled_stan_model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">iter_sampling</span><span class="o">=</span><span class="mi">1000</span> <span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">pooled_stan_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:cmdstanpy:start chain 1
+INFO:cmdstanpy:start chain 2
+INFO:cmdstanpy:finish chain 2
+INFO:cmdstanpy:finish chain 1
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_density</span><span class="p">(</span><span class="n">pooled_stan_fit</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;sigma&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta\n0&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;beta\n1&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;sigma&#39;}&gt;]], dtype=object)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_02_hierarchical-regression-stan_76_1.svg" src="../_images/scratch_02_hierarchical-regression-stan_76_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pooled_model_summary</span> <span class="o">=</span> <span class="n">pooled_stan_fit</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">])</span>
+<span class="n">pooled_model_summary</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean</th>
+      <th>MCSE</th>
+      <th>StdDev</th>
+      <th>20%</th>
+      <th>40%</th>
+      <th>60%</th>
+      <th>80%</th>
+      <th>N_Eff</th>
+      <th>N_Eff/s</th>
+      <th>R_hat</th>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>lp__</th>
+      <td>-240.00</td>
+      <td>0.04000</td>
+      <td>1.200</td>
+      <td>-240.00</td>
+      <td>-240.00</td>
+      <td>-240.00</td>
+      <td>-240.00</td>
+      <td>940.0</td>
+      <td>3800.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[1]</th>
+      <td>1.40</td>
+      <td>0.00082</td>
+      <td>0.028</td>
+      <td>1.30</td>
+      <td>1.40</td>
+      <td>1.40</td>
+      <td>1.40</td>
+      <td>1172.0</td>
+      <td>4725.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>beta[2]</th>
+      <td>-0.59</td>
+      <td>0.00210</td>
+      <td>0.073</td>
+      <td>-0.65</td>
+      <td>-0.61</td>
+      <td>-0.57</td>
+      <td>-0.52</td>
+      <td>1183.0</td>
+      <td>4772.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>sigma</th>
+      <td>0.80</td>
+      <td>0.00000</td>
+      <td>0.000</td>
+      <td>0.80</td>
+      <td>0.80</td>
+      <td>0.80</td>
+      <td>0.80</td>
+      <td>1671.9</td>
+      <td>6741.3</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">floor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">activity</span><span class="o">+</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">pooled_model_summary</span><span class="p">[</span><span class="s1">&#39;Mean&#39;</span><span class="p">][</span><span class="s1">&#39;beta[2]&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">xvals</span><span class="o">+</span><span class="n">pooled_model_summary</span><span class="p">[</span><span class="s1">&#39;Mean&#39;</span><span class="p">][</span><span class="s1">&#39;beta[1]&#39;</span><span class="p">],</span> <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x7f25d1251d60&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_02_hierarchical-regression-stan_78_1.svg" src="../_images/scratch_02_hierarchical-regression-stan_78_1.svg" /></div>
+</div>
+</div>
+<div class="section" id="No-pooling-model">
+<h3>No pooling model<a class="headerlink" href="#No-pooling-model" title="Permalink to this headline">¶</a></h3>
+<p>The no pooling model considers houses in each county to be independent from one another. There are as many pairs of parameters as there are counties in this model.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}y_i = \alpha_{j[i]} + \beta x_i + \epsilon_i\\which may also be written\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[y_i \sim \mathcal{N} (\alpha_{j[i]} + \beta x_i, \sigma)\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_model</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;data {</span>
+<span class="s2">  int&lt;lower=0&gt; N;</span>
+<span class="s2">  int&lt;lower=1,upper=85&gt; county[N];</span>
+<span class="s2">  vector[N] x;</span>
+<span class="s2">  vector[N] y;</span>
+<span class="s2">}</span>
+<span class="s2">parameters {</span>
+<span class="s2">  vector[85] a;</span>
+<span class="s2">  real beta;</span>
+<span class="s2">  real&lt;lower=0,upper=100&gt; sigma;</span>
+<span class="s2">}</span>
+<span class="s2">transformed parameters {</span>
+<span class="s2">  vector[N] y_hat;</span>
+
+<span class="s2">  for (i in 1:N)</span>
+<span class="s2">    y_hat[i] &lt;- beta * x[i] + a[county[i]];</span>
+<span class="s2">}</span>
+<span class="s2">model {</span>
+<span class="s2">  y ~ normal(y_hat, sigma);</span>
+<span class="s2">}&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_model_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;unpooled_model.stan&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">unpooled_model_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">unpooled_model</span><span class="p">)</span>
+<span class="n">unpooled_model_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">county</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">county</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(919,)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+       17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+       34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
+       68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">log_radon</span><span class="p">),</span>
+               <span class="s1">&#39;county&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">county</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="c1"># Stan counts starting at 1</span>
+               <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">floor_measure</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+               <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">log_radon</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_data_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;unpooled_model.data.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">unpooled_data_dict</span><span class="p">,</span> <span class="n">unpooled_data_file</span><span class="p">)</span>
+<span class="n">unpooled_data_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_stan</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;unpooled_model.stan&#39;</span><span class="p">)</span>
+<span class="n">unpooled_stan_model</span> <span class="o">=</span> <span class="n">CmdStanModel</span><span class="p">(</span><span class="n">stan_file</span><span class="o">=</span><span class="n">unpooled_stan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:cmdstanpy:compiling stan program, exe file: /data-cameron/jovyan/projects/biostatistics-review/source/bayesian-biostatistics/unpooled_model
+INFO:cmdstanpy:compiler options: stanc_options=None, cpp_options=None
+INFO:cmdstanpy:compiled model file: /data-cameron/jovyan/projects/biostatistics-review/source/bayesian-biostatistics/unpooled_model
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_stan_data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;unpooled_model.data.json&#39;</span><span class="p">)</span>
+<span class="n">unpooled_stan_fit</span> <span class="o">=</span> <span class="n">unpooled_stan_model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">chains</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">iter_sampling</span><span class="o">=</span><span class="mi">1000</span> <span class="p">,</span> <span class="n">sig_figs</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">unpooled_stan_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:cmdstanpy:start chain 1
+INFO:cmdstanpy:start chain 2
+INFO:cmdstanpy:finish chain 2
+INFO:cmdstanpy:finish chain 1
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_stan_fit</span><span class="o">.</span><span class="n">save_csvfiles</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;stan/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">az</span><span class="o">.</span><span class="n">plot_density</span><span class="p">(</span><span class="n">unpooled_stan_fit</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;sigma&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[&lt;AxesSubplot:title={&#39;center&#39;:&#39;beta&#39;}&gt;,
+        &lt;AxesSubplot:title={&#39;center&#39;:&#39;sigma&#39;}&gt;]], dtype=object)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_02_hierarchical-regression-stan_89_1.svg" src="../_images/scratch_02_hierarchical-regression-stan_89_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_model_summary</span> <span class="o">=</span> <span class="n">unpooled_stan_fit</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">],</span> <span class="n">sig_figs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">unpooled_model_summary</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean</th>
+      <th>MCSE</th>
+      <th>StdDev</th>
+      <th>20%</th>
+      <th>40%</th>
+      <th>60%</th>
+      <th>80%</th>
+      <th>N_Eff</th>
+      <th>N_Eff/s</th>
+      <th>R_hat</th>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>lp__</th>
+      <td>-167.0000</td>
+      <td>0.258800</td>
+      <td>6.9860</td>
+      <td>-172.5000</td>
+      <td>-168.5000</td>
+      <td>-164.9000</td>
+      <td>-161.100</td>
+      <td>728.9</td>
+      <td>644.4</td>
+      <td>0.9992</td>
+    </tr>
+    <tr>
+      <th>a[1]</th>
+      <td>0.8795</td>
+      <td>0.007561</td>
+      <td>0.3594</td>
+      <td>0.5695</td>
+      <td>0.7898</td>
+      <td>0.9642</td>
+      <td>1.179</td>
+      <td>2259.0</td>
+      <td>1998.0</td>
+      <td>1.0000</td>
+    </tr>
+    <tr>
+      <th>a[2]</th>
+      <td>0.9349</td>
+      <td>0.001812</td>
+      <td>0.1032</td>
+      <td>0.8481</td>
+      <td>0.9064</td>
+      <td>0.9595</td>
+      <td>1.023</td>
+      <td>3244.0</td>
+      <td>2868.0</td>
+      <td>0.9993</td>
+    </tr>
+    <tr>
+      <th>a[3]</th>
+      <td>1.5500</td>
+      <td>0.010160</td>
+      <td>0.4369</td>
+      <td>1.1750</td>
+      <td>1.4310</td>
+      <td>1.6640</td>
+      <td>1.921</td>
+      <td>1848.0</td>
+      <td>1634.0</td>
+      <td>1.0010</td>
+    </tr>
+    <tr>
+      <th>a[4]</th>
+      <td>1.5920</td>
+      <td>0.005735</td>
+      <td>0.2903</td>
+      <td>1.3490</td>
+      <td>1.5240</td>
+      <td>1.6590</td>
+      <td>1.832</td>
+      <td>2562.0</td>
+      <td>2266.0</td>
+      <td>0.9994</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>y_hat[915]</th>
+      <td>1.6670</td>
+      <td>0.003603</td>
+      <td>0.1989</td>
+      <td>1.4970</td>
+      <td>1.6200</td>
+      <td>1.7140</td>
+      <td>1.837</td>
+      <td>3046.0</td>
+      <td>2693.0</td>
+      <td>0.9994</td>
+    </tr>
+    <tr>
+      <th>y_hat[916]</th>
+      <td>1.6670</td>
+      <td>0.003603</td>
+      <td>0.1989</td>
+      <td>1.4970</td>
+      <td>1.6200</td>
+      <td>1.7140</td>
+      <td>1.837</td>
+      <td>3046.0</td>
+      <td>2693.0</td>
+      <td>0.9994</td>
+    </tr>
+    <tr>
+      <th>y_hat[917]</th>
+      <td>1.6670</td>
+      <td>0.003603</td>
+      <td>0.1989</td>
+      <td>1.4970</td>
+      <td>1.6200</td>
+      <td>1.7140</td>
+      <td>1.837</td>
+      <td>3046.0</td>
+      <td>2693.0</td>
+      <td>0.9994</td>
+    </tr>
+    <tr>
+      <th>y_hat[918]</th>
+      <td>1.2180</td>
+      <td>0.008933</td>
+      <td>0.5332</td>
+      <td>0.7506</td>
+      <td>1.0750</td>
+      <td>1.3490</td>
+      <td>1.685</td>
+      <td>3562.0</td>
+      <td>3150.0</td>
+      <td>0.9991</td>
+    </tr>
+    <tr>
+      <th>y_hat[919]</th>
+      <td>1.2180</td>
+      <td>0.008933</td>
+      <td>0.5332</td>
+      <td>0.7506</td>
+      <td>1.0750</td>
+      <td>1.3490</td>
+      <td>1.685</td>
+      <td>3562.0</td>
+      <td>3150.0</td>
+      <td>0.9991</td>
+    </tr>
+  </tbody>
+</table>
+<p>1007 rows × 10 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_stan_fit</span><span class="o">.</span><span class="n">diagnose</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:cmdstanpy:Processing csv files: stan/unpooled_model-202106071502-1.csv, stan/unpooled_model-202106071502-2.csv
+
+Checking sampler transitions treedepth.
+Treedepth satisfactory for all transitions.
+
+Checking sampler transitions for divergences.
+No divergent transitions found.
+
+Checking E-BFMI - sampler transitions HMC potential energy.
+E-BFMI satisfactory for all transitions.
+
+Effective sample size satisfactory.
+
+Split R-hat values satisfactory all parameters.
+
+Processing complete, no problems detected.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_model_intercepts</span> <span class="o">=</span> <span class="n">unpooled_model_summary</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s1">&#39;^a.*&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">unpooled_model_intercepts</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean</th>
+      <th>MCSE</th>
+      <th>StdDev</th>
+      <th>20%</th>
+      <th>40%</th>
+      <th>60%</th>
+      <th>80%</th>
+      <th>N_Eff</th>
+      <th>N_Eff/s</th>
+      <th>R_hat</th>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a[1]</th>
+      <td>0.8795</td>
+      <td>0.007561</td>
+      <td>0.3594</td>
+      <td>0.5695</td>
+      <td>0.7898</td>
+      <td>0.9642</td>
+      <td>1.179</td>
+      <td>2259.0</td>
+      <td>1998.0</td>
+      <td>1.0000</td>
+    </tr>
+    <tr>
+      <th>a[2]</th>
+      <td>0.9349</td>
+      <td>0.001812</td>
+      <td>0.1032</td>
+      <td>0.8481</td>
+      <td>0.9064</td>
+      <td>0.9595</td>
+      <td>1.023</td>
+      <td>3244.0</td>
+      <td>2868.0</td>
+      <td>0.9993</td>
+    </tr>
+    <tr>
+      <th>a[3]</th>
+      <td>1.5500</td>
+      <td>0.010160</td>
+      <td>0.4369</td>
+      <td>1.1750</td>
+      <td>1.4310</td>
+      <td>1.6640</td>
+      <td>1.921</td>
+      <td>1848.0</td>
+      <td>1634.0</td>
+      <td>1.0010</td>
+    </tr>
+    <tr>
+      <th>a[4]</th>
+      <td>1.5920</td>
+      <td>0.005735</td>
+      <td>0.2903</td>
+      <td>1.3490</td>
+      <td>1.5240</td>
+      <td>1.6590</td>
+      <td>1.832</td>
+      <td>2562.0</td>
+      <td>2266.0</td>
+      <td>0.9994</td>
+    </tr>
+    <tr>
+      <th>a[5]</th>
+      <td>1.4590</td>
+      <td>0.006017</td>
+      <td>0.3651</td>
+      <td>1.1570</td>
+      <td>1.3630</td>
+      <td>1.5530</td>
+      <td>1.753</td>
+      <td>3683.0</td>
+      <td>3256.0</td>
+      <td>0.9996</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>a[81]</th>
+      <td>2.7070</td>
+      <td>0.008209</td>
+      <td>0.4108</td>
+      <td>2.3560</td>
+      <td>2.6080</td>
+      <td>2.8180</td>
+      <td>3.058</td>
+      <td>2504.0</td>
+      <td>2214.0</td>
+      <td>0.9991</td>
+    </tr>
+    <tr>
+      <th>a[82]</th>
+      <td>2.2500</td>
+      <td>0.012660</td>
+      <td>0.7219</td>
+      <td>1.6390</td>
+      <td>2.0740</td>
+      <td>2.4330</td>
+      <td>2.840</td>
+      <td>3250.0</td>
+      <td>2873.0</td>
+      <td>0.9993</td>
+    </tr>
+    <tr>
+      <th>a[83]</th>
+      <td>1.6540</td>
+      <td>0.003823</td>
+      <td>0.1910</td>
+      <td>1.5030</td>
+      <td>1.6100</td>
+      <td>1.7010</td>
+      <td>1.808</td>
+      <td>2496.0</td>
+      <td>2207.0</td>
+      <td>0.9997</td>
+    </tr>
+    <tr>
+      <th>a[84]</th>
+      <td>1.6670</td>
+      <td>0.003603</td>
+      <td>0.1989</td>
+      <td>1.4970</td>
+      <td>1.6200</td>
+      <td>1.7140</td>
+      <td>1.837</td>
+      <td>3046.0</td>
+      <td>2693.0</td>
+      <td>0.9994</td>
+    </tr>
+    <tr>
+      <th>a[85]</th>
+      <td>1.2180</td>
+      <td>0.008933</td>
+      <td>0.5332</td>
+      <td>0.7506</td>
+      <td>1.0750</td>
+      <td>1.3490</td>
+      <td>1.685</td>
+      <td>3562.0</td>
+      <td>3150.0</td>
+      <td>0.9991</td>
+    </tr>
+  </tbody>
+</table>
+<p>85 rows × 10 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unpooled_model_intercepts</span><span class="p">[</span><span class="s2">&quot;County&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">unpooled_model_intercepts</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">unpooled_model_intercepts</span><span class="p">[</span><span class="s2">&quot;County Name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mn_counties</span>
+<span class="n">unpooled_model_intercepts_sorted</span> <span class="o">=</span> <span class="n">unpooled_model_intercepts</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">unpooled_model_intercepts_sorted</span><span class="p">[</span><span class="s2">&quot;Order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">unpooled_model_intercepts</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">unpooled_model_intercepts_sorted</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+&lt;ipython-input-57-d2640068d70e&gt;:1: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  unpooled_model_intercepts[&#34;County&#34;] = [*range(1,len(unpooled_model_intercepts)+1)]
+&lt;ipython-input-57-d2640068d70e&gt;:2: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  unpooled_model_intercepts[&#34;County Name&#34;] = mn_counties
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean</th>
+      <th>MCSE</th>
+      <th>StdDev</th>
+      <th>20%</th>
+      <th>40%</th>
+      <th>60%</th>
+      <th>80%</th>
+      <th>N_Eff</th>
+      <th>N_Eff/s</th>
+      <th>R_hat</th>
+      <th>County</th>
+      <th>County Name</th>
+      <th>Order</th>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a[37]</th>
+      <td>0.4855</td>
+      <td>0.004667</td>
+      <td>0.2397</td>
+      <td>0.2957</td>
+      <td>0.4297</td>
+      <td>0.5435</td>
+      <td>0.6845</td>
+      <td>2638.0</td>
+      <td>2333.0</td>
+      <td>0.9993</td>
+      <td>37</td>
+      <td>LAKE</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>a[16]</th>
+      <td>0.7093</td>
+      <td>0.010260</td>
+      <td>0.5116</td>
+      <td>0.2784</td>
+      <td>0.5863</td>
+      <td>0.8421</td>
+      <td>1.1440</td>
+      <td>2487.0</td>
+      <td>2199.0</td>
+      <td>1.0000</td>
+      <td>16</td>
+      <td>COOK</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>a[79]</th>
+      <td>0.7109</td>
+      <td>0.007421</td>
+      <td>0.3629</td>
+      <td>0.4029</td>
+      <td>0.6266</td>
+      <td>0.8036</td>
+      <td>1.0220</td>
+      <td>2391.0</td>
+      <td>2114.0</td>
+      <td>0.9999</td>
+      <td>79</td>
+      <td>WASECA</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>a[22]</th>
+      <td>0.7767</td>
+      <td>0.006211</td>
+      <td>0.2968</td>
+      <td>0.5197</td>
+      <td>0.6932</td>
+      <td>0.8562</td>
+      <td>1.0280</td>
+      <td>2283.0</td>
+      <td>2019.0</td>
+      <td>0.9993</td>
+      <td>22</td>
+      <td>FARIBAULT</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>a[57]</th>
+      <td>0.8150</td>
+      <td>0.006325</td>
+      <td>0.3053</td>
+      <td>0.5546</td>
+      <td>0.7390</td>
+      <td>0.8895</td>
+      <td>1.0690</td>
+      <td>2329.0</td>
+      <td>2060.0</td>
+      <td>1.0000</td>
+      <td>57</td>
+      <td>PINE</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>a[82]</th>
+      <td>2.2500</td>
+      <td>0.012660</td>
+      <td>0.7219</td>
+      <td>1.6390</td>
+      <td>2.0740</td>
+      <td>2.4330</td>
+      <td>2.8400</td>
+      <td>3250.0</td>
+      <td>2873.0</td>
+      <td>0.9993</td>
+      <td>82</td>
+      <td>WILKIN</td>
+      <td>81</td>
+    </tr>
+    <tr>
+      <th>a[40]</th>
+      <td>2.3220</td>
+      <td>0.006901</td>
+      <td>0.3677</td>
+      <td>2.0150</td>
+      <td>2.2320</td>
+      <td>2.4250</td>
+      <td>2.6350</td>
+      <td>2839.0</td>
+      <td>2510.0</td>
+      <td>0.9998</td>
+      <td>40</td>
+      <td>LINCOLN</td>
+      <td>82</td>
+    </tr>
+    <tr>
+      <th>a[50]</th>
+      <td>2.4900</td>
+      <td>0.013620</td>
+      <td>0.7247</td>
+      <td>1.9020</td>
+      <td>2.3020</td>
+      <td>2.6470</td>
+      <td>3.1040</td>
+      <td>2831.0</td>
+      <td>2503.0</td>
+      <td>1.0010</td>
+      <td>50</td>
+      <td>MURRAY</td>
+      <td>83</td>
+    </tr>
+    <tr>
+      <th>a[81]</th>
+      <td>2.7070</td>
+      <td>0.008209</td>
+      <td>0.4108</td>
+      <td>2.3560</td>
+      <td>2.6080</td>
+      <td>2.8180</td>
+      <td>3.0580</td>
+      <td>2504.0</td>
+      <td>2214.0</td>
+      <td>0.9991</td>
+      <td>81</td>
+      <td>WATONWAN</td>
+      <td>84</td>
+    </tr>
+    <tr>
+      <th>a[36]</th>
+      <td>2.9550</td>
+      <td>0.009943</td>
+      <td>0.5154</td>
+      <td>2.5060</td>
+      <td>2.8290</td>
+      <td>3.0840</td>
+      <td>3.4020</td>
+      <td>2687.0</td>
+      <td>2376.0</td>
+      <td>0.9995</td>
+      <td>36</td>
+      <td>LAC QUI PARLE</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+<p>85 rows × 13 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">unpooled_model_intercepts_sorted</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Order&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;County&quot;</span><span class="p">,</span>
+                                                   <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Set2&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">unpooled_model_intercepts_sorted</span><span class="p">[</span><span class="s2">&quot;Order&quot;</span><span class="p">],</span> <span class="n">unpooled_model_intercepts_sorted</span><span class="p">[</span><span class="s2">&quot;Mean&quot;</span><span class="p">],</span>
+            <span class="n">yerr</span><span class="o">=</span><span class="n">unpooled_model_intercepts_sorted</span><span class="p">[</span><span class="s2">&quot;StdDev&quot;</span><span class="p">],</span> <span class="n">xerr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">capsize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Ordered county&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Radon estimate $(\log_</span><span class="si">{10}</span><span class="s2">)$&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0, 0.5, &#39;Radon estimate $(\\log_{10})$&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_02_hierarchical-regression-stan_94_1.svg" src="../_images/scratch_02_hierarchical-regression-stan_94_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_counties</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;LAC QUI PARLE&#39;</span><span class="p">,</span> <span class="s1">&#39;AITKIN&#39;</span><span class="p">,</span> <span class="s1">&#39;KOOCHICHING&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;DOUGLAS&#39;</span><span class="p">,</span> <span class="s1">&#39;CLAY&#39;</span><span class="p">,</span> <span class="s1">&#39;STEARNS&#39;</span><span class="p">,</span> <span class="s1">&#39;RAMSEY&#39;</span><span class="p">,</span> <span class="s1">&#39;ST LOUIS&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">unpooled_model_summary</span><span class="p">[</span><span class="s2">&quot;Mean&quot;</span><span class="p">][</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span>
+<span class="n">m0</span> <span class="o">=</span> <span class="n">pooled_model_summary</span><span class="p">[</span><span class="s1">&#39;Mean&#39;</span><span class="p">][</span><span class="s1">&#39;beta[2]&#39;</span><span class="p">]</span>
+<span class="n">b0</span> <span class="o">=</span> <span class="n">pooled_model_summary</span><span class="p">[</span><span class="s1">&#39;Mean&#39;</span><span class="p">][</span><span class="s1">&#39;beta[1]&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample_counties</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">log_radon</span><span class="p">[</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">county</span><span class="o">==</span><span class="n">c</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">srrs_mn</span><span class="o">.</span><span class="n">floor</span><span class="p">[</span><span class="n">srrs_mn</span><span class="o">.</span><span class="n">county</span><span class="o">==</span><span class="n">c</span><span class="p">]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+    <span class="c1"># No pooling model</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">unpooled_model_intercepts</span><span class="p">[</span><span class="n">unpooled_model_intercepts</span><span class="p">[</span><span class="s2">&quot;County Name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">c</span><span class="p">][</span><span class="s2">&quot;Mean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Plot both models and data</span>
+    <span class="n">xvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">m</span><span class="o">*</span><span class="n">xvals</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">m0</span><span class="o">*</span><span class="n">xvals</span><span class="o">+</span><span class="n">b0</span><span class="p">,</span> <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;basement&#39;</span><span class="p">,</span> <span class="s1">&#39;floor&#39;</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span><span class="o">%</span><span class="k">4</span>:
+        <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;log radon level&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/scratch_02_hierarchical-regression-stan_95_0.svg" src="../_images/scratch_02_hierarchical-regression-stan_95_0.svg" /></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+          <div class="sidebar-resize-handle"></div>
+
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../plotting.html">Plotting setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bayesian-biostatistics/hierarchical-regression.html">Hierarchical regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+<hr class="docutils" />
+<ul>
+  <li class="toctree-l1"><a class="reference internal" href="../genindex.html" accesskey="I">General Index</a></li>
+</ul>
+<div id="ethical-ad-placement"></div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+    <nav class="relbar">
+    </nav>
+
+    <footer role="contentinfo">
+      &#169; Copyright 2021, Cameron Smith.
+      Created using <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> 2.4.4.
+      <a class="reference external" href="https://insipid-sphinx-theme.readthedocs.io/">Insipid Theme</a>.
+    </footer>
+  </body>
+</html>
